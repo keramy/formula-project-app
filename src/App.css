@@ -1,0 +1,114 @@
+.App {
+  text-align: left;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* Animation for cards */
+.project-card, .task-card {
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.project-card:hover, .task-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.12) !important;
+}
+
+/* Priority colors */
+.priority-low {
+  border-left: 4px solid #27ae60 !important;
+}
+
+.priority-medium {
+  border-left: 4px solid #f39c12 !important;
+}
+
+.priority-high {
+  border-left: 4px solid #e67e22 !important;
+}
+
+.priority-urgent {
+  border-left: 4px solid #e74c3c !important;
+}
+
+/* Status indicators */
+.status-completed {
+  opacity: 0.7;
+  text-decoration: line-through;
+}
+
+.status-overdue {
+  background-color: #fff5f5 !important;
+  border-left: 4px solid #e74c3c !important;
+}
+
+.type-fit-out {
+  border-top: 3px solid #e67e22;
+}
+
+.type-millwork {
+  border-top: 3px solid #8e44ad;
+}
+
+.type-electrical {
+  border-top: 3px solid #f1c40f;
+}
+
+.type-mep {
+  border-top: 3px solid #1abc9c;
+}
+
+.type-management {
+  border-top: 3px solid #37444B;
+}
+
+/* Loading animation */
+@keyframes pulse {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.loading {
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .App {
+    padding: 10px;
+  }
+  
+  .MuiContainer-root {
+    padding: 8px !important;
+  }
+  
+  .MuiPaper-root {
+    margin-bottom: 16px;
+  }
+}
