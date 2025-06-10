@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { generateProjectId, generateTaskId, generateMemberId } from './utils/idGenerator';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import {
@@ -12,6 +13,8 @@ import {
   Tabs,
   Tab
 } from '@mui/material';
+import { NotificationProvider } from './context';
+import { NotificationContainer } from './components';
 import ProjectForm from './components/ProjectForm';
 import TaskForm from './components/TaskForm';
 import ProjectsList from './components/ProjectsList';
@@ -209,7 +212,7 @@ function App() {
   const addProject = (project) => {
     const newProject = {
       ...project,
-      id: Date.now(),
+      id: generateProjectId(),
       status: 'active',
       createdAt: new Date().toISOString()
     };
@@ -219,7 +222,7 @@ function App() {
   const addTask = (task) => {
     const newTask = {
       ...task,
-      id: Date.now(),
+      id: generateTaskId(),
       status: 'pending',
       progress: 0,
       createdAt: new Date().toISOString()
@@ -279,7 +282,7 @@ function App() {
   const addTeamMember = (member) => {
     const newMember = {
       ...member,
-      id: Date.now()
+      id: generateMemberId()
     };
     setTeamMembers([...teamMembers, newMember]);
   };
@@ -303,156 +306,161 @@ function App() {
   };
 
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <div className="App">
-        {/* Header */}
-        <AppBar position="static" sx={{ mb: 4 }}>
-          <Toolbar>
-            <Typography variant="h4" component="div" sx={{ flexGrow: 1 }}>
-              📋 Formula Project Management
-            </Typography>
-          </Toolbar>
-        </AppBar>
-
-        <Container maxWidth="xl">
-          {/* Statistics Cards */}
-          <StatsCards projects={projects} tasks={tasks} teamMembers={teamMembers} />
-
-          {/* Navigation Tabs */}
-          <Paper sx={{ mb: 3 }}>
-            <Tabs 
-              value={currentTab} 
-              onChange={handleTabChange}
-              variant="fullWidth"
-              sx={{ borderBottom: 1, borderColor: 'divider' }}
-            >
-              <Tab label="📊 Dashboard" />
-              <Tab label="📈 Analytics" />
-              <Tab label="👥 Team Management" />
-              <Tab label="📋 Projects & Tasks" />
-              <Tab label="🕐 Timeline" />
-            </Tabs>
-          </Paper>
-
-          {/* Tab Panels */}
-          <TabPanel value={currentTab} index={0}>
-  {/* Dashboard */}
-  <Grid container spacing={4}>
-    <Grid item xs={12} md={6}>
-      <Paper sx={{ p: 3 }}>
-        <Typography variant="h6" gutterBottom>
-          Create New Project
-        </Typography>
-        <ProjectForm onSubmit={addProject} />
-      </Paper>
-    </Grid>
-    
-    <Grid item xs={12} md={6}>
-      <Paper sx={{ p: 3 }}>
-        <Typography variant="h6" gutterBottom>
-          Add New Task
-        </Typography>
-        <TaskForm 
-          projects={projects} 
-          teamMembers={teamMembers}
-          onSubmit={addTask} 
-        />
-      </Paper>
-    </Grid>
-  </Grid>
-</TabPanel>
-
-<TabPanel value={currentTab} index={1}>
-  {/* Analytics Dashboard */}
-  <AdvancedDashboard 
-    projects={projects}
-    tasks={tasks}
-    teamMembers={teamMembers}
-  />
-</TabPanel>
-
-          <TabPanel value={currentTab} index={2}>
-            {/* Team Management */}
-            <Grid container spacing={4}>
-              <Grid item xs={12} md={4}>
-                <Paper sx={{ p: 3 }}>
-                  <Typography variant="h6" gutterBottom>
-                    Add Team Member
-                  </Typography>
-                  <TeamMemberForm 
-                    teamMembers={teamMembers}
-                    onSubmit={addTeamMember} 
-                  />
-                </Paper>
-              </Grid>
-              
-              <Grid item xs={12} md={8}>
-                <Paper sx={{ p: 3 }}>
-                  <Typography variant="h6" gutterBottom>
-                    Team Members ({teamMembers.length})
-                  </Typography>
-                  <TeamMembersList 
-                    teamMembers={teamMembers}
-                    tasks={tasks}
-                    onUpdateMember={updateTeamMember}
-                    onDeleteMember={deleteTeamMember}
-                  />
-                </Paper>
-              </Grid>
-            </Grid>
-          </TabPanel>
-
-          <TabPanel value={currentTab} index={3}>
-            {/* Projects & Tasks */}
-            <Grid container spacing={4}>
-              <Grid item xs={12} md={6}>
-                <Paper sx={{ p: 3 }}>
-                  <Typography variant="h6" gutterBottom>
-                    Active Projects ({projects.length})
-                  </Typography>
-                  <ProjectsList 
-                    projects={projects}
-                    tasks={tasks}
-                    onSelectProject={setSelectedProject}
-                    onDeleteProject={deleteProject}
-                  />
-                </Paper>
-              </Grid>
-
-              <Grid item xs={12} md={6}>
-                <Paper sx={{ p: 3 }}>
-                  <Typography variant="h6" gutterBottom>
-                    Tasks Overview ({tasks.length})
-                  </Typography>
-                  <TasksList 
-                    tasks={tasks}
-                    projects={projects}
-                    teamMembers={teamMembers}
-                    onUpdateTask={updateTask}
-                    onDeleteTask={deleteTask}
-                  />
-                </Paper>
-              </Grid>
-            </Grid>
-          </TabPanel>
-
-          <TabPanel value={currentTab} index={4}>
-            {/* Timeline */}
-            <Paper sx={{ p: 3 }}>
-              <Typography variant="h6" gutterBottom>
-                Project Timeline & Gantt Chart
+    <NotificationProvider>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <div className="App">
+          {/* Header */}
+          <AppBar position="static" sx={{ mb: 4 }}>
+            <Toolbar>
+              <Typography variant="h4" component="div" sx={{ flexGrow: 1 }}>
+                📋 Formula Project Management
               </Typography>
-              <GanttChart 
-                tasks={tasks}
+            </Toolbar>
+          </AppBar>
+
+          <Container maxWidth="xl">
+            {/* Statistics Cards */}
+            <StatsCards projects={projects} tasks={tasks} teamMembers={teamMembers} />
+
+            {/* Navigation Tabs */}
+            <Paper sx={{ mb: 3 }}>
+              <Tabs 
+                value={currentTab} 
+                onChange={handleTabChange}
+                variant="fullWidth"
+                sx={{ borderBottom: 1, borderColor: 'divider' }}
+              >
+                <Tab label="📊 Dashboard" />
+                <Tab label="📈 Analytics" />
+                <Tab label="👥 Team Management" />
+                <Tab label="📋 Projects & Tasks" />
+                <Tab label="🕐 Timeline" />
+              </Tabs>
+            </Paper>
+
+            {/* Tab Panels */}
+            <TabPanel value={currentTab} index={0}>
+              {/* Dashboard */}
+              <Grid container spacing={4}>
+                <Grid item xs={12} md={6}>
+                  <Paper sx={{ p: 3 }}>
+                    <Typography variant="h6" gutterBottom>
+                      Create New Project
+                    </Typography>
+                    <ProjectForm onSubmit={addProject} />
+                  </Paper>
+                </Grid>
+                
+                <Grid item xs={12} md={6}>
+                  <Paper sx={{ p: 3 }}>
+                    <Typography variant="h6" gutterBottom>
+                      Add New Task
+                    </Typography>
+                    <TaskForm 
+                      projects={projects} 
+                      teamMembers={teamMembers}
+                      onSubmit={addTask} 
+                    />
+                  </Paper>
+                </Grid>
+              </Grid>
+            </TabPanel>
+
+            <TabPanel value={currentTab} index={1}>
+              {/* Analytics Dashboard */}
+              <AdvancedDashboard 
                 projects={projects}
+                tasks={tasks}
                 teamMembers={teamMembers}
               />
-            </Paper>
-          </TabPanel>
-        </Container>
-      </div>
-    </ThemeProvider>
+            </TabPanel>
+
+            <TabPanel value={currentTab} index={2}>
+              {/* Team Management */}
+              <Grid container spacing={4}>
+                <Grid item xs={12} md={4}>
+                  <Paper sx={{ p: 3 }}>
+                    <Typography variant="h6" gutterBottom>
+                      Add Team Member
+                    </Typography>
+                    <TeamMemberForm 
+                      teamMembers={teamMembers}
+                      onSubmit={addTeamMember} 
+                    />
+                  </Paper>
+                </Grid>
+                
+                <Grid item xs={12} md={8}>
+                  <Paper sx={{ p: 3 }}>
+                    <Typography variant="h6" gutterBottom>
+                      Team Members ({teamMembers.length})
+                    </Typography>
+                    <TeamMembersList 
+                      teamMembers={teamMembers}
+                      tasks={tasks}
+                      onUpdateMember={updateTeamMember}
+                      onDeleteMember={deleteTeamMember}
+                    />
+                  </Paper>
+                </Grid>
+              </Grid>
+            </TabPanel>
+
+            <TabPanel value={currentTab} index={3}>
+              {/* Projects & Tasks */}
+              <Grid container spacing={4}>
+                <Grid item xs={12} md={6}>
+                  <Paper sx={{ p: 3 }}>
+                    <Typography variant="h6" gutterBottom>
+                      Active Projects ({projects.length})
+                    </Typography>
+                    <ProjectsList 
+                      projects={projects}
+                      tasks={tasks}
+                      onSelectProject={setSelectedProject}
+                      onDeleteProject={deleteProject}
+                    />
+                  </Paper>
+                </Grid>
+
+                <Grid item xs={12} md={6}>
+                  <Paper sx={{ p: 3 }}>
+                    <Typography variant="h6" gutterBottom>
+                      Tasks Overview ({tasks.length})
+                    </Typography>
+                    <TasksList 
+                      tasks={tasks}
+                      projects={projects}
+                      teamMembers={teamMembers}
+                      onUpdateTask={updateTask}
+                      onDeleteTask={deleteTask}
+                    />
+                  </Paper>
+                </Grid>
+              </Grid>
+            </TabPanel>
+
+            <TabPanel value={currentTab} index={4}>
+              {/* Timeline */}
+              <Paper sx={{ p: 3 }}>
+                <Typography variant="h6" gutterBottom>
+                  Project Timeline & Gantt Chart
+                </Typography>
+                <GanttChart 
+                  tasks={tasks}
+                  projects={projects}
+                  teamMembers={teamMembers}
+                />
+              </Paper>
+            </TabPanel>
+          </Container>
+
+          {/* Notification Container - En altta */}
+          <NotificationContainer />
+        </div>
+      </ThemeProvider>
+    </NotificationProvider>
   );
 }
 

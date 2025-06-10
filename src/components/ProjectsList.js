@@ -17,12 +17,13 @@ import {
   Engineering,
   Person,
   CalendarToday,
-  Delete
+  Delete,
+  Business
 } from '@mui/icons-material';
 
 const projectTypeConfig = {
-  construction: {
-    label: 'Construction',
+  'fit-out': {
+    label: 'Fit-out',
     icon: <Build />,
     color: '#e67e22',
     bgColor: '#fef5e7'
@@ -39,11 +40,17 @@ const projectTypeConfig = {
     color: '#f1c40f',
     bgColor: '#fffbf0'
   },
-  mechanical: {
-    label: 'Mechanical',
+  mep: {
+    label: 'MEP',
     icon: <Engineering />,
     color: '#1abc9c',
     bgColor: '#e8f8f5'
+  },
+  management: {
+    label: 'Management',
+    icon: <Business />,
+    color: '#37444B',
+    bgColor: '#f5f5f5'
   }
 };
 

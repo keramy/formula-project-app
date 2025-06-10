@@ -194,16 +194,15 @@ function TaskForm({ projects, teamMembers = [], onSubmit }) {
           label="Due Date"
           value={formData.dueDate}
           onChange={handleDateChange}
-          renderInput={(params) => (
-            <TextField
-              {...params}
-              error={!!errors.dueDate}
-              helperText={errors.dueDate}
-              fullWidth
-              required
-            />
-          )}
           minDate={new Date()}
+          slotProps={{
+            textField: {
+              error: !!errors.dueDate,
+              helperText: errors.dueDate,
+              fullWidth: true,
+              required: true
+            }
+          }}
         />
 
         <TextField

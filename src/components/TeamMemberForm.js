@@ -28,12 +28,11 @@ const roles = [
 ];
 
 const departments = [
-  { value: 'construction', label: 'Construction' },
+  { value: 'fit-out', label: 'Fit-out' },
   { value: 'millwork', label: 'Millwork' },
   { value: 'electrical', label: 'Electrical' },
-  { value: 'mechanical', label: 'Mechanical' },
-  { value: 'management', label: 'Management' },
-  { value: 'client', label: 'Client' }
+  { value: 'mep', label: 'MEP' },
+  { value: 'management', label: 'Management' }
 ];
 
 function TeamMemberForm({ onSubmit, teamMembers = [] }) {

@@ -147,30 +147,28 @@ function ProjectForm({ onSubmit }) {
           label="Start Date"
           value={formData.startDate}
           onChange={handleDateChange('startDate')}
-          renderInput={(params) => (
-            <TextField
-              {...params}
-              error={!!errors.startDate}
-              helperText={errors.startDate}
-              fullWidth
-              required
-            />
-          )}
+          slotProps={{
+            textField: {
+              error: !!errors.startDate,
+              helperText: errors.startDate,
+              fullWidth: true,
+              required: true
+            }
+          }}
         />
 
         <DatePicker
           label="End Date"
           value={formData.endDate}
           onChange={handleDateChange('endDate')}
-          renderInput={(params) => (
-            <TextField
-              {...params}
-              error={!!errors.endDate}
-              helperText={errors.endDate}
-              fullWidth
-              required
-            />
-          )}
+          slotProps={{
+            textField: {
+              error: !!errors.endDate,
+              helperText: errors.endDate,
+              fullWidth: true,
+              required: true
+            }
+          }}
         />
 
         <TextField

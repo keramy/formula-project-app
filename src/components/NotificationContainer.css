@@ -1,0 +1,140 @@
+/* src/components/NotificationContainer.css */
+.notification-container {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 420px;
+}
+
+.notification {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  color: white;
+  min-width: 300px;
+  max-width: 420px;
+  transition: all 0.3s ease;
+  transform: translateX(0);
+  opacity: 1;
+}
+
+.notification-enter {
+  animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.notification-exit {
+  animation: slideOut 0.3s ease-in;
+}
+
+@keyframes slideOut {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+}
+
+.notification-content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+}
+
+.notification-icon {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+}
+
+.notification-message {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.notification-close {
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+  flex-shrink: 0;
+}
+
+.notification-close:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.notification-close svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* Notification Types */
+.notification-success {
+  background-color: #10b981;
+  background-image: linear-gradient(to right, #10b981, #059669);
+}
+
+.notification-error {
+  background-color: #ef4444;
+  background-image: linear-gradient(to right, #ef4444, #dc2626);
+}
+
+.notification-warning {
+  background-color: #f59e0b;
+  background-image: linear-gradient(to right, #f59e0b, #d97706);
+}
+
+.notification-info {
+  background-color: #3b82f6;
+  background-image: linear-gradient(to right, #3b82f6, #2563eb);
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .notification {
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
+  }
+}
+
+/* Mobile responsive */
+@media (max-width: 640px) {
+  .notification-container {
+    left: 10px;
+    right: 10px;
+    bottom: 10px;
+  }
+  
+  .notification {
+    min-width: unset;
+    width: 100%;
+  }
+}
